@@ -25,9 +25,14 @@ int main() {
     // response to the keyboard input
     respondKeyBoard(&direction, &snakeLen, &life, &score);
 
-    // terminate the game when the life is 0
-    gotoxy(1, ROW + 2);
-    printf("\n\n\e[31mGame Over!\e[0m Your score is: %d.\n\n", score);
+    // terminate the game when the life is 0 or has passed the game
+    if (isGamePass(snakeLen)) {
+        gotoxy(1, ROW + 2);
+        printf("\n\n\e[31mGame Passed!\e[0m Your score is: %d.\n\n", score);
+    } else {
+        gotoxy(1, ROW + 2);
+        printf("\n\n\e[31mGame Over!\e[0m Your score is: %d.\n\n", score);
+    }
 
     return 0;
 }

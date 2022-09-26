@@ -14,3 +14,5 @@ make
 clear
 ./c_snake_game
 ```
+
+__Note: Press arrow key(️⬆️⬇️⬅️➡️) to control the snake direction.__

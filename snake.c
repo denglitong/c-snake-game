@@ -245,23 +245,24 @@ void respondKeyBoard(char *direction, int *snakeLen, int *life, int *score) {
     for (; *life > 0;) {
         // 暂停 200ms
         usleep(200 * 1000);
+        // 玩家按一次上下左右的方向键，会读取到三个数字，只有第三个数字可以用来区分不同的方向键
         if ((inputKey = getInputKey()) != '\0') {
-            // 玩家按下一次方向键，会读取到三个数字，只有第三个数字可以用来区分不同的方向键
+            inputKey = getInputKey();
+            inputKey = getInputKey();
             inputKey = toupper(inputKey);
 
-            if (inputKey == UP && *direction != DOWN) {
+            if (inputKey == ARROW_UP && *direction != DOWN) {
                 *direction = UP;
-            } else if (inputKey == LEFT && *direction != RIGHT) {
+            } else if (inputKey == ARROW_LEFT && *direction != RIGHT) {
                 *direction = LEFT;
-            } else if (inputKey == RIGHT && *direction != LEFT) {
+            } else if (inputKey == ARROW_RIGHT && *direction != LEFT) {
                 *direction = RIGHT;
-            } else if (inputKey == DOWN && *direction != UP) {
+            } else if (inputKey == ARROW_DOWN && *direction != UP) {
                 *direction = DOWN;
             }
         }
 
         expandBoard();
-        printf("\ninput key: %c, direction: %c\n\n", inputKey, *direction);
 
         // 将新的方向传递给 movingSnake，让蛇身按照这个方向移动一次
         movingSnake(*direction, *snakeLen);
@@ -272,6 +273,13 @@ void respondKeyBoard(char *direction, int *snakeLen, int *life, int *score) {
         // 检测是否吃到食物
         isFoodEaten(snakeLen, score);
 
+        if (isGamePass(*snakeLen)) {
+            break;
+        }
         expandBoard();
     }
+}
+
+int isGamePass(int snakeLen) {
+    return snakeLen == MAX_SNAKE_LEN;
 }
